@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>張淑賢 | 數位多媒體個人作品集</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Mali (標題圓潤), Nunito (內文圓潤), Noto Sans TC (繁體中文) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;600;700&family=Nunito:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        mint: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#a7f3d0', // 主綠色
+                            500: '#22c55e',
+                            600: '#16a34a', // 深綠色
+                        },
+                        blush: {
+                            50: '#fdf2f8',
+                            100: '#fce7f3',
+                            200: '#fbcfe8', // 主粉色
+                            500: '#ec4899', // 深粉色
+                            600: '#db2777',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Nunito', 'Noto Sans TC', 'sans-serif'],
+                        display: ['Mali', 'Noto Sans TC', 'cursive'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #fafafa;
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(152, 76%, 80%, 0.4) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, hsla(330, 81%, 76%, 0.4) 0px, transparent 50%);
+            background-attachment: fixed;
+            color: #374151;
+        }
+
+        /* 專業級卡片陰影與毛玻璃效果 */
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .elegant-card {
+            background: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.08);
+            border: 1px solid rgba(255,255,255,0.6);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .elegant-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px -10px rgba(34, 197, 94, 0.15);
+        }
+
+        /* 圖片容器 Hover 特效 */
+        .img-zoom-container {
+            overflow: hidden;
+            border-radius: 20px;
+        }
+        .img-zoom-container img {
+            transition: transform 0.5s ease;
+        }
+        .img-zoom-container:hover img {
+            transform: scale(1.08);
+        }
+
+        /* 捲動浮現動畫 (Scroll Reveal) */
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal-up.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 自訂捲軸 */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #fdf2f8; }
+        ::-webkit-scrollbar-thumb {
+            background: #a7f3d0;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover { background: #fbcfe8; }
+    </style>
+</head>
+<body class="antialiased selection:bg-blush-500 selection:text-white font-sans">
+
+    <!-- 導覽列 Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 glass-nav py-3">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-14">
+                <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <span class="font-display text-2xl font-bold text-mint-600 flex items-center gap-2">
+                        <i class="fa-solid fa-leaf text-blush-500"></i>
+                        Shuxian.Z
+                    </span>
+                </div>
+                
+                <!-- 桌面版選單 -->
+                <div class="hidden md:flex space-x-1 items-center">
+                    <a href="#home" class="px-4 py-2 text-gray-600 hover:text-mint-600 hover:bg-mint-50 rounded-full font-semibold transition-all">首頁</a>
+                    <a href="#about" class="px-4 py-2 text-gray-600 hover:text-mint-600 hover:bg-mint-50 rounded-full font-semibold transition-all">關於我</a>
+                    <a href="#skills" class="px-4 py-2 text-gray-600 hover:text-mint-600 hover:bg-mint-50 rounded-full font-semibold transition-all">技能與目標</a>
+                    <a href="#gallery" class="px-4 py-2 text-gray-600 hover:text-blush-500 hover:bg-blush-50 rounded-full font-semibold transition-all">生活點滴</a>
+                    <a href="#contact" class="ml-4 px-6 py-2 rounded-full bg-mint-500 text-white hover:bg-mint-600 hover:shadow-lg hover:shadow-mint-500/30 transition-all font-semibold">聯絡我</a>
+                </div>
+
+                <!-- 手機版選單按鈕 -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-mint-600 hover:text-blush-500 focus:outline-none p-2 rounded-full bg-mint-50">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 手機版下拉選單 -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full shadow-xl">
+            <div class="px-4 py-4 space-y-2 text-center flex flex-col">
+                <a href="#home" class="block px-3 py-3 text-gray-700 hover:bg-mint-50 hover:text-mint-600 rounded-2xl font-semibold">首頁</a>
+                <a href="#about" class="block px-3 py-3 text-gray-700 hover:bg-mint-50 hover:text-mint-600 rounded-2xl font-semibold">關於我</a>
+                <a href="#skills" class="block px-3 py-3 text-gray-700 hover:bg-mint-50 hover:text-mint-600 rounded-2xl font-semibold">技能與目標</a>
+                <a href="#gallery" class="block px-3 py-3 text-gray-700 hover:bg-blush-50 hover:text-blush-500 rounded-2xl font-semibold">生活點滴</a>
+                <a href="#contact" class="block px-3 py-3 mt-2 text-white bg-mint-500 hover:bg-mint-600 rounded-2xl font-semibold">聯絡我</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 1. 首頁 (Hero Section) -->
+    <section id="home" class="min-h-screen flex items-center justify-center pt-20 px-4 relative overflow-hidden">
+        <div class="max-w-5xl mx-auto flex flex-col-reverse md:flex-row items-center gap-12 reveal-up">
+            
+            <!-- 文字介紹 -->
+            <div class="w-full md:w-1/2 text-center md:text-left">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-blush-200 text-blush-600 font-semibold mb-6 shadow-sm">
+                    <span class="relative flex h-3 w-3">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blush-500 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-3 w-3 bg-blush-500"></span>
+                    </span>
+                    數位多媒體學生
+                </div>
+                <h1 class="font-display text-5xl md:text-6xl lg:text-7xl font-bold mb-4 text-gray-800 leading-tight">
+                    你好，我是<br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-mint-500 to-blush-500">張淑賢</span>
+                </h1>
+                <p class="text-xl text-gray-600 mb-8 font-medium leading-relaxed">
+                    將天馬行空的想像，轉化為觸動人心的文字與色彩。我熱愛創作，無論是透過畫筆還是鍵盤，都在致力於說好每一個故事。
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center md:justify-start gap-4">
+                    <a href="#portfolio" class="px-8 py-3.5 rounded-full bg-gray-900 text-white font-bold text-lg hover:-translate-y-1 hover:shadow-xl hover:bg-gray-800 transition-all duration-300 flex items-center justify-center gap-2">
+                        探索我的世界 <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                    <a href="#contact" class="px-8 py-3.5 rounded-full bg-white text-gray-700 border-2 border-gray-200 font-bold text-lg hover:-translate-y-1 hover:border-mint-500 hover:text-mint-600 transition-all duration-300 flex items-center justify-center gap-2">
+                        聯絡方式
+                    </a>
+                </div>
+            </div>
+
+            <!-- 視覺圖像裝飾 (取代單調的照片，改為有設計感的幾何與圖片排版) -->
+            <div class="w-full md:w-1/2 relative h-[400px] flex justify-center items-center">
+                <!-- 裝飾背景圈 -->
+                <div class="absolute w-[300px] h-[300px] bg-gradient-to-br from-mint-200 to-blush-200 rounded-full blur-3xl opacity-60 animate-pulse"></div>
+                
+                <!-- 主視覺卡片 -->
+                <div class="relative w-64 h-80 elegant-card p-3 z-10 transform rotate-3 hover:rotate-0 transition-transform duration-500">
+                    <img src="https://placehold.co/400x500/a7f3d0/16a34a?text=Creative+Mind" alt="Creative Idea" class="w-full h-full object-cover rounded-2xl">
+                    <!-- 浮動小卡 -->
+                    <div class="absolute -left-12 bottom-10 bg-white px-4 py-3 rounded-2xl shadow-xl border border-gray-100 flex items-center gap-3 animate-bounce" style="animation-duration: 3s;">
+                        <div class="w-10 h-10 rounded-full bg-blush-100 text-blush-500 flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-pen-nib"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-400 font-bold">未來目標</p>
+                            <p class="text-sm font-bold text-gray-800">小說作家</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. 關於我 (About Section) -->
+    <section id="about" class="py-24 px-4 relative">
+        <div class="max-w-6xl mx-auto">
+            <div class="elegant-card p-8 md:p-12 lg:p-16 reveal-up relative overflow-hidden">
+                <!-- 背景裝飾 -->
+                <div class="absolute top-0 right-0 w-64 h-64 bg-mint-50 rounded-full -translate-y-1/2 translate-x-1/3 -z-10"></div>
+                <div class="absolute bottom-0 left-0 w-48 h-48 bg-blush-50 rounded-full translate-y-1/3 -translate-x-1/3 -z-10"></div>
+
+                <div class="flex flex-col md:flex-row gap-12 items-center">
+                    
+                    <!-- 個人照片 (可替換生活照或正式照) -->
+                    <div class="w-full md:w-2/5 flex justify-center">
+                        <div class="relative">
+                            <div class="absolute inset-0 bg-gradient-to-tr from-mint-500 to-blush-500 rounded-full transform -rotate-6 scale-105 opacity-20"></div>
+                            <!-- 大頭照 Placeholder -->
+                            <img src="https://placehold.co/500x500/fdf2f8/ec4899?text=Profile+Picture" alt="張淑賢" class="relative w-64 h-64 md:w-80 md:h-80 object-cover rounded-full border-8 border-white shadow-2xl z-10">
+                        </div>
+                    </div>
+
+                    <!-- 關於我文字 -->
+                    <div class="w-full md:w-3/5">
+                        <h2 class="font-display text-4xl font-bold text-gray-800 mb-6 relative inline-block">
+                            關於我 <span class="text-mint-500">.</span>
+                        </h2>
+                        
+                        <div class="space-y-4 text-gray-600 text-lg leading-relaxed mb-8">
+                            <p>
+                                我是一名充滿熱情的<strong class="text-gray-900">數位多媒體</strong>學生。我相信每個人的心中都有一座充滿故事的小島，而我致力於用我的方式，將這些故事具象化，分享給世界。
+                            </p>
+                            <p>
+                                在課業之餘，我喜歡沉浸在色彩與文字的世界裡。無論是透過細膩的繪畫筆觸，還是充滿想像力的小說情節，都是我與這個世界溝通、表達自我最美好的橋樑。
+                            </p>
+                        </div>
+
+                        <!-- 資訊標籤 -->
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-gray-50 rounded-2xl p-4 border border-gray-100 flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-full bg-white shadow-sm flex items-center justify-center text-mint-500 text-xl">
+                                    <i class="fa-solid fa-graduation-cap"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-400 font-bold">主修科系</p>
+                                    <p class="font-bold text-gray-800">數位多媒體</p>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 rounded-2xl p-4 border border-gray-100 flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-full bg-white shadow-sm flex items-center justify-center text-blush-500 text-xl">
+                                    <i class="fa-solid fa-heart"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-400 font-bold">熱愛事物</p>
+                                    <p class="font-bold text-gray-800">創作與分享</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. 技能與目標 (Skills & Goals) -->
+    <section id="skills" class="py-20 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16 reveal-up">
+                <h2 class="font-display text-4xl font-bold text-gray-800 mb-4">專業技能與未來目標</h2>
+                <p class="text-gray-500">結合美學與文學，打造獨一無二的數位內容</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <!-- 技能欄位 -->
+                <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 reveal-up">
+                    
+                    <!-- 畫畫技能卡片 -->
+                    <div class="elegant-card p-8 hover:border-mint-200">
+                        <div class="w-14 h-14 rounded-2xl bg-mint-100 text-mint-600 flex items-center justify-center text-2xl mb-6">
+                            <i class="fa-solid fa-palette"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3">繪畫創作</h3>
+                        <p class="text-gray-600 mb-6 text-sm leading-relaxed">
+                            善於使用數位工具進行角色設計、場景繪製。喜歡用色彩堆疊出溫暖、有氛圍的畫面。
+                        </p>
+                        <!-- 標籤雲 -->
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1.5 bg-gray-50 border border-gray-200 text-gray-600 text-xs rounded-lg font-semibold">數位繪圖</span>
+                            <span class="px-3 py-1.5 bg-gray-50 border border-gray-200 text-gray-600 text-xs rounded-lg font-semibold">角色設計</span>
+                            <span class="px-3 py-1.5 bg-gray-50 border border-gray-200 text-gray-600 text-xs rounded-lg font-semibold">色彩學</span>
+                            <span class="px-3 py-1.5 bg-gray-50 border border-gray-200 text-gray-600 text-xs rounded-lg font-semibold">插畫</span>
+                        </div>
+                    </div>
+
+                    <!-- 寫作技能卡片 -->
+                    <div class="elegant-card p-8 hover:border-blush-200">
+                        <div class="w-14 h-14 rounded-2xl bg-blush-100 text-blush-600 flex items-center justify-center text-2xl mb-6">
+                            <i class="fa-solid fa-book-open"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3">小說寫作</h3>
+                        <p class="text-gray-600 mb-6 text-sm leading-relaxed">
+                            熱愛建構世界觀與刻劃角色內心。透過文字的力量，帶領讀者進入充滿奇幻與感動的故事中。
+                        </p>
+                        <!-- 標籤雲 -->
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1.5 bg-gray-50 border border-gray-200 text-gray-600 text-xs rounded-lg font-semibold">故事發想</span>
+                            <span class="px-3 py-1.5 bg-gray-50 border border-gray-200 text-gray-600 text-xs rounded-lg font-semibold">劇本創作</span>
+                            <span class="px-3 py-1.5 bg-gray-50 border border-gray-200 text-gray-600 text-xs rounded-lg font-semibold">文字編輯</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 目標卡片 (Highlighter) -->
+                <div class="bg-gray-900 rounded-[24px] p-8 text-white shadow-2xl relative overflow-hidden reveal-up flex flex-col justify-center">
+                    <div class="absolute -right-10 -top-10 w-40 h-40 bg-mint-500 rounded-full blur-3xl opacity-20"></div>
+                    <div class="absolute -left-10 -bottom-10 w-40 h-40 bg-blush-500 rounded-full blur-3xl opacity-20"></div>
+                    
+                    <div class="relative z-10">
+                        <div class="inline-block px-4 py-1.5 bg-white/10 backdrop-blur-sm rounded-full text-mint-200 text-sm font-bold mb-6">
+                            <i class="fa-solid fa-star mr-1"></i> Ultimate Goal
+                        </div>
+                        <h3 class="font-display text-4xl font-bold mb-4">小說作家</h3>
+                        <p class="text-gray-300 leading-relaxed mb-8">
+                            結合數位多媒體系的所學（視覺傳達）與我的興趣（文字創作），我最大的夢想是成為一名出版作品的小說作家。期待未來能創作出圖文並茂的跨媒體精采作品！
+                        </p>
+                        
+                        <!-- 夢想進度條 -->
+                        <div>
+                            <div class="flex justify-between text-sm font-bold mb-2">
+                                <span class="text-white">夢想實踐進度</span>
+                                <span class="text-mint-400">Loading...</span>
+                            </div>
+                            <div class="w-full bg-gray-800 rounded-full h-3 border border-gray-700">
+                                <div class="bg-gradient-to-r from-mint-500 to-blush-500 h-3 rounded-full relative" style="width: 65%">
+                                    <div class="absolute right-0 top-0 bottom-0 w-4 bg-white/30 rounded-full animate-pulse"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. 生活點滴相簿 (Life Gallery - NEW) -->
+    <section id="gallery" class="py-24 px-4 bg-white">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12 reveal-up">
+                <div>
+                    <h2 class="font-display text-4xl font-bold text-gray-800 mb-4">生活點滴</h2>
+                    <p class="text-gray-500 max-w-lg">
+                        生活中的美好瞬間與自然風景，都是我創作靈感的來源。這裡記錄了我眼中的色彩與世界。
+                    </p>
+                </div>
+                <div class="mt-4 md:mt-0">
+                    <span class="px-4 py-2 bg-blush-50 text-blush-600 rounded-full text-sm font-bold">
+                        <i class="fa-solid fa-camera mr-1"></i> My Gallery
+                    </span>
+                </div>
+            </div>
+
+            <!-- 照片網格 (Masonry-like feel with Grid) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 reveal-up">
+                
+                <!-- 照片 1: 專屬花朵照片 (佔用較大版面或顯眼位置) -->
+                <div class="img-zoom-container bg-gray-100 rounded-[20px] aspect-[4/5] sm:col-span-2 lg:col-span-1 shadow-sm relative group">
+                    <img src="1000042611.jpg" alt="粉紅小花與綠葉" class="w-full h-full object-cover rounded-[20px]">
+                    <!-- Hover 遮罩與文字 -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-[20px] flex items-end p-6">
+                        <div>
+                            <h3 class="text-white font-bold text-lg">盛開的粉紅</h3>
+                            <p class="text-gray-200 text-sm">校園一隅的生機盎然</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 照片 2: 佔位符，可放其他生活照 -->
+                <div class="img-zoom-container bg-gray-100 rounded-[20px] aspect-square shadow-sm relative group">
+                    <img src="https://placehold.co/600x600/fdf2f8/ec4899?text=Life+Photo+2" alt="生活照" class="w-full h-full object-cover rounded-[20px]">
+                    <div class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-[20px]">
+                        <p class="text-white font-bold tracking-widest bg-black/50 px-4 py-2 rounded-lg backdrop-blur-sm">點擊查看或替換</p>
+                    </div>
+                </div>
+
+                <!-- 照片 3 -->
+                <div class="img-zoom-container bg-gray-100 rounded-[20px] aspect-square shadow-sm relative group">
+                    <img src="https://placehold.co/600x600/dcfce7/16a34a?text=Life+Photo+3" alt="生活照" class="w-full h-full object-cover rounded-[20px]">
+                    <div class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-[20px]">
+                        <p class="text-white font-bold tracking-widest bg-black/50 px-4 py-2 rounded-lg backdrop-blur-sm">點擊查看或替換</p>
+                    </div>
+                </div>
+
+                <!-- 照片 4 -->
+                <div class="img-zoom-container bg-gray-100 rounded-[20px] aspect-square shadow-sm relative group">
+                    <img src="https://placehold.co/600x600/fbcfe8/db2777?text=Life+Photo+4" alt="生活照" class="w-full h-full object-cover rounded-[20px]">
+                </div>
+
+                <!-- 照片 5 -->
+                <div class="img-zoom-container bg-gray-100 rounded-[20px] aspect-square shadow-sm relative group">
+                    <img src="https://placehold.co/600x600/a7f3d0/16a34a?text=Life+Photo+5" alt="生活照" class="w-full h-full object-cover rounded-[20px]">
+                </div>
+
+                <!-- 照片 6 -->
+                <div class="img-zoom-container bg-gray-100 rounded-[20px] aspect-[4/5] sm:col-span-2 lg:col-span-1 shadow-sm relative group">
+                    <img src="https://placehold.co/600x800/f8fafc/64748b?text=More+Photos..." alt="更多生活照" class="w-full h-full object-cover rounded-[20px]">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                         <span class="px-6 py-3 bg-white/80 backdrop-blur-sm text-gray-700 font-bold rounded-full shadow-lg">期待更多故事...</span>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- 提示文字 -->
+            <p class="text-center text-sm text-gray-400 mt-8">
+                <i class="fa-solid fa-lightbulb text-mint-500 mr-1"></i> 提示：您可以將程式碼中的 placehold.co 網址替換成您的真實生活照路徑。
+            </p>
+        </div>
+    </section>
+
+    <!-- 5. 聯繫方式 (Contact Section) -->
+    <section id="contact" class="py-24 px-4 relative">
+        <div class="max-w-5xl mx-auto">
+            <div class="elegant-card overflow-hidden reveal-up">
+                <div class="flex flex-col md:flex-row">
+                    
+                    <!-- 聯絡資訊 -->
+                    <div class="w-full md:w-5/12 bg-gray-900 text-white p-10 md:p-12 relative overflow-hidden">
+                        <!-- 裝飾 -->
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-bl-full"></div>
+                        <div class="absolute bottom-0 left-0 w-32 h-32 bg-mint-500/20 rounded-tr-full"></div>
+                        
+                        <div class="relative z-10">
+                            <h3 class="font-display text-3xl font-bold mb-2">Get In Touch</h3>
+                            <p class="text-gray-400 mb-10 text-sm">期待與您交流心得、討論合作，或是聊聊有趣的故事！</p>
+                            
+                            <div class="space-y-8">
+                                <div class="flex items-start gap-4 group">
+                                    <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-mint-400 group-hover:bg-mint-500 group-hover:text-white transition-all shrink-0">
+                                        <i class="fa-solid fa-envelope"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-1">Email</p>
+                                        <a href="mailto:bd1151001@venus.lit.edu.tw" class="text-white hover:text-mint-300 transition-colors break-all font-medium">bd1151001@venus.lit.edu.tw</a>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-start gap-4 group">
+                                    <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-mint-400 group-hover:bg-mint-500 group-hover:text-white transition-all shrink-0">
+                                        <i class="fa-solid fa-phone"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-1">Phone</p>
+                                        <a href="tel:0916684864" class="text-white hover:text-mint-300 transition-colors font-medium">0916684864</a>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-start gap-4 group">
+                                    <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-[#1877F2] group-hover:bg-[#1877F2] group-hover:text-white transition-all shrink-0">
+                                        <i class="fa-brands fa-facebook-f"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-1">Facebook</p>
+                                        <a href="#" class="text-white hover:text-[#1877F2] transition-colors font-medium">Fhai Ananpon</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 快速留言區塊 (視覺用) -->
+                    <div class="w-full md:w-7/12 p-10 md:p-12 bg-white">
+                        <h4 class="text-2xl font-bold text-gray-800 mb-6">傳送訊息</h4>
+                        <form onsubmit="event.preventDefault(); document.getElementById('success-modal').classList.remove('hidden');" class="space-y-5">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-600 mb-2">您的稱呼</label>
+                                    <input type="text" required class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-mint-500 focus:bg-white transition-all">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-bold text-gray-600 mb-2">您的信箱</label>
+                                    <input type="email" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-mint-500 focus:bg-white transition-all">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-gray-600 mb-2">想說的話</label>
+                                <textarea required rows="4" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-mint-500 focus:bg-white transition-all resize-none"></textarea>
+                            </div>
+                            <button type="submit" class="w-full sm:w-auto px-8 py-3 rounded-xl bg-gray-900 text-white font-bold hover:bg-mint-600 hover:shadow-lg transition-all flex items-center justify-center gap-2">
+                                送出訊息 <i class="fa-regular fa-paper-plane"></i>
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 頁尾 Footer -->
+    <footer class="bg-white border-t border-gray-200 py-10 mt-10">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+            <div>
+                <p class="text-gray-800 font-bold text-lg">張淑賢 <span class="text-gray-400 font-normal text-sm ml-2">Digital Multimedia</span></p>
+                <p class="text-gray-500 text-sm mt-1">&copy; 2026 All Rights Reserved.</p>
+            </div>
+            
+            <!-- 回到頂部按鈕 -->
+            <button onclick="window.scrollTo(0,0)" class="w-12 h-12 rounded-full bg-gray-100 text-gray-500 hover:bg-mint-100 hover:text-mint-600 transition-colors flex items-center justify-center">
+                <i class="fa-solid fa-arrow-up"></i>
+            </button>
+        </div>
+    </footer>
+
+    <!-- 成功訊息 Modal (代替 Alert) -->
+    <div id="success-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4 bg-gray-900/40 backdrop-blur-sm">
+        <div class="bg-white rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl transform scale-100 animate-[bounce_0.3s_ease-out]">
+            <div class="w-16 h-16 rounded-full bg-green-100 text-green-500 flex items-center justify-center text-3xl mx-auto mb-4">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <h4 class="text-2xl font-bold text-gray-800 mb-2">送出成功！</h4>
+            <p class="text-gray-500 mb-6">謝謝您的訊息，我會盡快回覆您。</p>
+            <button onclick="document.getElementById('success-modal').classList.add('hidden')" class="w-full py-3 rounded-xl bg-gray-900 text-white font-bold hover:bg-gray-800 transition-colors">
+                關閉
+            </button>
+        </div>
+    </div>
+
+    <!-- JavaScript 互動功能 -->
+    <script>
+        // 1. 手機版選單切換
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const icon = btn.querySelector('i');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+            if (menu.classList.contains('hidden')) {
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            } else {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            }
+        });
+
+        // 點擊手機選單項目後自動關閉
+        menu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            });
+        });
+
+        // 2. 導覽列滾動陰影特效
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 10) {
+                navbar.classList.add('shadow-sm');
+            } else {
+                navbar.classList.remove('shadow-sm');
+            }
+        });
+
+        // 3. 滾動顯示動畫 (Intersection Observer)
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); // 動畫只執行一次
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal-up').forEach((el) => {
+            observer.observe(el);
+        });
+
+        // 確保首頁元素一載入就顯示
+        setTimeout(() => {
+            document.querySelectorAll('#home .reveal-up').forEach(el => el.classList.add('active'));
+        }, 100);
+    </script>
+</body>
+</html>
